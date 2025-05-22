@@ -40,3 +40,51 @@ while M > 0:
         break
 print(cake_count)
 
+
+# ------------ 더 효율적인 답 ------------------------------
+import sys
+
+N, M = map(int, sys.stdin.readline().split())
+cakes = list(map(int, sys.stdin.readline().split()))
+
+cake_count = 0
+clean_cut = []
+dirty_cut = []
+
+# 1. 분류
+for cake in cakes:
+    if cake == 10:
+        cake_count += 1
+    elif cake % 10 == 0:
+        clean_cut.append(cake)
+    else:
+        dirty_cut.append(cake)
+
+# 2. 자를 때 손실 없는 케이크부터
+clean_cut.sort()
+dirty_cut.sort()
+
+# 3. clean_cut 케이크 처리
+for cake in clean_cut:
+    pieces = cake // 10
+    cuts = pieces - 1  # 자르기 횟수
+    if M >= cuts:
+        cake_count += pieces
+        M -= cuts
+    else:
+        cake_count += M
+        M = 0
+        break
+
+# 4. dirty_cut 케이크 처리
+for cake in dirty_cut:
+    pieces = cake // 10
+    cuts = pieces  # 자르기 횟수 = 조각 수
+    if M >= cuts:
+        cake_count += pieces
+        M -= cuts
+    else:
+        cake_count += M
+        break
+
+print(cake_count)
