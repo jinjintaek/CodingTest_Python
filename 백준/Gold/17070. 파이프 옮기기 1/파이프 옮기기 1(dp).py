@@ -10,10 +10,10 @@ for y in range(N):
         if board[y][x] == 1:
             continue
         
-        if x - 1 > 0:
+        if x - 1 >= 0:
             dp[y][x][0] += dp[y][x-1][0] + dp[y][x-1][2]
             
-        if y - 1 > 0:
+        if y - 1 >= 0:
             dp[y][x][1] += dp[y-1][x][1] + dp[y-1][x][2]
             
         if x - 1 >= 0 and y - 1 >= 0:
