@@ -1,4 +1,5 @@
 import sys
+from itertools import permutations
 
 input = sys.stdin.readline
 
@@ -6,21 +7,27 @@ N = int(input())
 
 innings = [list(map(int, input().split())) for _ in range(N)]
 
-max_score = 0
+players = [i for i in range(1, 9)]
 
-def simulate(order):
+orders = []
+
+for perm in permutations(players):
+    order = list(perm[:3]) + [0] + list(perm[3:])
+    orders.append(order)
+    
+def simulate(order, innings):
     score = 0
-    batter_idx = 0
+    batter_index = 0
     
     for inning in innings:
         out = 0
         b1, b2, b3 = 0, 0, 0
         
         while out < 3:
-            result = inning[order[batter_idx]]
-
+            result = inning[order[batter_index]]
+            
             if result == 0:
-                out += 1
+                out += 1 
             elif result == 1:
                 score += b3
                 b3, b2, b1 = b2, b1, 1
@@ -33,33 +40,17 @@ def simulate(order):
             elif result == 4:
                 score += b3 + b2 + b1 + 1
                 b3, b2, b1 = 0, 0, 0
-
-            batter_idx = (batter_idx + 1) % 9
-
+                
+            batter_index = (batter_index + 1) % 9
+            
     return score
+    
+max_score = 0
 
-def backtrack(depth, order, visited):
-    global max_score
+for order in orders:
+    score = simulate(order, innings)
+    if score > max_score:
+        max_score = score
+        
+print(max_score)  
     
-    if depth == 9:
-        score = simulate(order)
-        max_score = max(max_score, score)
-        return
-    
-    if depth == 3:
-        order.append(0)
-        backtrack(depth + 1, order, visited)
-        order.pop()
-    
-    else:
-        for i in range(1, 9):
-            if not visited[i]:
-                visited[i] = True
-                order.append(i)
-                backtrack(depth + 1, order, visited)
-                order.pop()
-                visited[i] = False
-
-visited = [False] * 9
-backtrack(0, [], visited)
-print(max_score)
