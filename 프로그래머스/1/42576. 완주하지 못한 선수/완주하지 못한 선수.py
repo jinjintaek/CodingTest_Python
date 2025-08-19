@@ -7,4 +7,3 @@ def solution(participant, completion):
     for name, cnt in counts.items():
         if cnt > 0:
             return name
-
