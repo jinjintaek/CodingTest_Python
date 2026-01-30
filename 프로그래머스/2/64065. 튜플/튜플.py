@@ -4,14 +4,13 @@ def solution(s):
 
     s_list = []
     for i in s:
-        num = list(map(int, i.split(',')))
-        s_list.append(num)
+        s_list.append(i.split(','))
 
     s_list.sort(key=len)
 
     answer = []
     for s in s_list:
         for num in s:
-            if num not in answer:
-                answer.append(num)
+            if int(num) not in answer:
+                answer.append(int(num))
     return answer
