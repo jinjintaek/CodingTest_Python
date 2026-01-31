@@ -1,26 +1,29 @@
 def solution(new_id):
-    
-    answer = new_id.lower()
+    new_id = new_id.lower()
     
     result = ""
-    for i in answer:
+    for i in new_id:
         if i.isalnum() or i in ['-','_','.']:
             result += i
-    answer = result
     
-    while '..' in answer:
-        answer = answer.replace("..", ".")
+    new_id = result
     
-    answer = answer.strip('.')
+    while '..' in new_id:
+        new_id = new_id.replace('..','.')
     
-    if not answer:
-        answer = "a"
+    new_id = new_id.strip('.')
+    
+    if not new_id:
+        new_id += "a"
         
-    if len(answer) >= 16:
-        answer = answer[:15]
-        answer = answer.rstrip('.')
+    if len(new_id) >= 16:
+        new_id = new_id[:15]
+        if new_id[-1] == '.':
+            new_id = new_id.rstrip('.')
     
-    while len(answer) < 3:
-        answer += answer[-1]
+    while len(new_id) <3:
+        new_id += new_id[-1]
     
-    return answer
+    return new_id
+            
+            
