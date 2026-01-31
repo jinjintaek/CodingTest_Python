@@ -5,7 +5,6 @@ def solution(orders, course):
     answer = []
     orders = [sorted(order) for order in orders]
 
-    answer = []
     for course_size in course:
         counter = Counter()
         for order in orders:
