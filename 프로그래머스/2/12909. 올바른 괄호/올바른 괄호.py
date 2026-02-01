@@ -3,11 +3,14 @@ def solution(s):
     for i in s:
         if i == "(":
             count += 1
-        elif i == ")":
+        else:
             count -= 1
+            
         if count < 0:
             return False
+    
     if count == 0:
         return True
     else:
         return False
+        
