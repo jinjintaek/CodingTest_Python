@@ -1,20 +1,19 @@
 def solution(s):
     s = s[2:-2]
-    s = s.split("},{")
-    
-    s_list = []
-    for i in s:
-        s_list.append(i.split(','))
-    
-    s_list.sort(key=len)
-    
+    s = s.split('},{')
+    s.sort(key=len)
     answer = []
+    for i in s:
+        nums = i.split(',')
+        for j in nums:
+            if int(j) not in answer:
+                answer.append(int(j))
+        
     
-    for s in s_list:
-        for num in s:
-            if int(num) not in answer:
-                answer.append(int(num))
-                
     
+        
+        
+        
     return answer
+    
                 
