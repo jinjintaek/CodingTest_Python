@@ -1,29 +1,18 @@
+import re
+
 def solution(new_id):
-    new_id = new_id.lower()
+    answer = new_id.lower()
+    answer = re.sub('[^a-z0-9\-\_\.]','',answer)
+    answer = re.sub('\.{2,}','.',answer)
+    answer = answer.strip('.')
+    if not answer:
+        answer += 'a'
+    if len(answer)>=16:
+        answer = answer[:15]
+    if answer[-1] == '.':
+        answer = answer.rstrip('.')
+    while len(answer) <= 2:
+        answer += answer[-1]
+    return answer
     
-    result = ""
-    for i in new_id:
-        if i.isalnum() or i in ['-','_','.']:
-            result += i
-    
-    new_id = result
-    
-    while '..' in new_id:
-        new_id = new_id.replace('..','.')
-    
-    new_id = new_id.strip('.')
-    
-    if not new_id:
-        new_id += "a"
-        
-    if len(new_id) >= 16:
-        new_id = new_id[:15]
-        if new_id[-1] == '.':
-            new_id = new_id.rstrip('.')
-    
-    while len(new_id) <3:
-        new_id += new_id[-1]
-    
-    return new_id
-            
             
