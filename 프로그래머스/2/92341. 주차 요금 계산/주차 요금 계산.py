@@ -1,34 +1,35 @@
 import math
 
 def solution(fees, records):
+    
+    latest_time = {}
+    total_time = {}
     answer = []
-    status = {}
-    times = {}
+    
     for record in records:
         r = record.split()
-        if r[2] == 'IN':
-            status[r[1]] = r[0]
-        if r[2] == 'OUT':
-            time = timechange(r[0]) - timechange(status[r[1]])
-            times[r[1]] = times.get(r[1],0) + time
-            status[r[1]] = None 
-    for k, v in status.items():
+        t, n, s = r[0], r[1], r[2]
+        if s == 'IN':
+            latest_time[n] = t
+        if s == 'OUT':
+            gap = tc(t) - tc(latest_time[n])
+            total_time[n] = total_time.get(n, 0) + gap
+            latest_time[n] = None
+    for k, v in latest_time.items():
         if v != None:
-            time = timechange('23:59') - timechange(v)
-            times[k] = times.get(k,0) + time
+            gap = tc('23:59') - tc(latest_time[k])
+            total_time[k] = total_time.get(k, 0) + gap
             
-    times = sorted(times.items())
-    for time in times:
-        if time[1] <= fees[0]:
-            price = fees[1]
-            answer.append(price)
-        else:
-            price = math.ceil((time[1] - fees[0]) / fees[2]) * fees[3] + fees[1]
-            answer.append(price)
-        
+    total_time = sorted(total_time.items())
+    
+    for tt in total_time:
+        time = tt[1]
+        answer.append(max(math.ceil((time - fees[0]) / fees[2]) * fees[3] + fees[1], fees[1]))
+    
     return answer
-
-def timechange(time):
-    t = time.split(':')
-    return int(t[0]) * 60 + int(t[1])
-
+    
+def tc(time):
+    tt = time.split(':')
+    return int(tt[0]) * 60 + int(tt[1])
+    
+        
