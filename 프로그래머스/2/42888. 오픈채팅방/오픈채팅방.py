@@ -1,21 +1,22 @@
 def solution(record):
+    usr = {}
+    result = []
     
-    user2nick = {}
-    
-    for rec in record:
-        arr = rec.split()
-        if len(arr) > 2:
-            user2nick[arr[1]] = arr[2]
-    
-    answer = []
-    
-    for rec in record:
-        arr = rec.split()
-        if arr[0] == "Enter":
-            answer.append(f"{user2nick[arr[1]]}님이 들어왔습니다.")
-        elif arr[0] == "Leave":
-            answer.append(f"{user2nick[arr[1]]}님이 나갔습니다.")
+    for r in record:
+        recs = r.split()
+        if len(recs) > 2:
+            command, uid, name = recs[0], recs[1], recs[2]
             
-    return answer
-            
+            if command == "Enter" or command == "Change":
+                usr[uid] = name 
         
+    for r in record:
+        recs = r.split()
+        if recs[0] == "Enter":
+            result.append(f"{usr[recs[1]]}님이 들어왔습니다.")
+        if recs[0] == "Leave":
+            result.append(f"{usr[recs[1]]}님이 나갔습니다.")
+    
+    return result
+    
+    
