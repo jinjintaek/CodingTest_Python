@@ -1,36 +1,31 @@
 import math
-
 def solution(fees, records):
-    total_time = {}
-    current_time = {}
-    for record in records:
-        t,n,s = record.split()
-        if s == "IN":
-            current_time[n] = tc(t)
-        else:
-            total_time[n] = total_time.get(n, 0) + (tc(t) - current_time[n])
-            current_time[n] = None
-            
-    for k, v in current_time.items():
-        if v != None:
-            total_time[k] = total_time.get(k, 0) + (tc("23:59") - v)
-    
-    total_time = sorted(total_time.items())
-    
-    
-    
     answer = []
-    for (k, v) in total_time:
-        if v > fees[0]:
-            answer.append(fees[1]+ math.ceil((v-fees[0])/fees[2]) * fees[3])
-        else:
+    curr = {}
+    total = {}
+    def tc(time):
+        hour, minute = time.split(':')
+        return 60 * int(hour) + int(minute)
+    
+    for record in records:
+        a,b,c = record.split()
+        if c == "IN":
+            curr[b] = tc(a)
+        if c == "OUT":
+            total[b] = total.get(b, 0) + (tc(a) - curr[b])
+            curr[b] = None
+    
+    for k, v in curr.items():
+        if v != None:
+            total[k] = total.get(k, 0) + (tc("23:59") - v)
+    
+    
+    total = sorted(total.items())
+    for time in total:
+        if time[1] <= fees[0]:
             answer.append(fees[1])
-        
-    return answer
-
-def tc(time):
-    h, m = time.split(':')
-    return int(h) * 60 + int(m)
+        elif time[1] > fees[0]:
+            answer.append(fees[1] + math.ceil((time[1]-fees[0])/fees[2]) * fees[3])
         
             
-        
+    return answer
