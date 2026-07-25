@@ -2,13 +2,11 @@ from itertools import permutations
 
 def solution(numbers):
     answer = 0
-    candidates = []
+    candidates = set()
     for length in range(1,len(numbers)+1):
         for p in permutations(numbers,length):
             num = int("".join(p))
-            candidates.append(num)
-    
-    candidates = list(set(candidates))
+            candidates.add(num)
     
     def is_prime(num):
         if num <2:
