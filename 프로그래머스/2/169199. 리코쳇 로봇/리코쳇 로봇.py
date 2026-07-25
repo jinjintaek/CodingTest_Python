@@ -1,6 +1,3 @@
-"""
-.이면 한칸 간다기 보다 다음 장애물 D나 맵 끝 전까지 이동해야함
-"""
 from collections import deque
 def solution(board):
     
